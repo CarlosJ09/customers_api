@@ -3,7 +3,7 @@ services:
     image: 'postgres:16'
     environment:
       - 'POSTGRES_DB=customers'
-      - 'POSTGRES_USER=carlosj09'
+      - 'POSTGRES_USER=carlos'
       - 'POSTGRES_PASSWORD=password'
     ports:
       - '5432:5432'
