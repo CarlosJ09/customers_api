@@ -29,7 +29,7 @@ public class CustomerController {
         return customerRepository.findById(id);
     }
 
-
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     Customer createCustomer(@Valid @RequestBody Customer customer) {
         return customerRepository.create(customer);
