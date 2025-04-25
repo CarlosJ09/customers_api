@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS customer (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    address_id BIGINT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS address (
+    id SERIAL PRIMARY KEY,
+    street VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    state VARCHAR(255) NOT NULL,
+    zip VARCHAR(255) NOT NULL
+);
+
