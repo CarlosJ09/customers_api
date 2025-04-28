@@ -1,6 +1,7 @@
 package com.carlosj09.customers.customer;
 
 import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,10 @@ public class CustomerController {
         this.customerRepository = customerRepository;
     }
 
-
     @GetMapping("")
     List<Customer> getCustomers() {
         return customerRepository.findAll();
     }
-
 
     @GetMapping("/{id}")
     Optional<Customer> getCustomer(@PathVariable Long id) {
@@ -32,23 +31,18 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     Customer createCustomer(@Valid @RequestBody Customer customer) {
-        return customerRepository.create(customer);
+        return customerRepository.save(customer);
     }
 
     @PutMapping("/{id}")
     Customer updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        return customerRepository.update(id, customer);
+        return customerRepository.save(customer);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     void deleteCustomer(@PathVariable Long id) {
-        customerRepository.delete(id);
+        customerRepository.deleteById(id);
     }
 
 }
-
-
-
-
-

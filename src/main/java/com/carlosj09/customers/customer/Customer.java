@@ -1,16 +1,14 @@
 package com.carlosj09.customers.customer;
 
-import com.carlosj09.customers.address.Address;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+
 import jakarta.validation.constraints.NotEmpty;
 
 public record Customer(
-        Long id,
-        @NotEmpty
-        String name,
-        @NotEmpty
-        String email,
-        @NotEmpty
-        String phone,
-        Address address
-) {
+        @Id Long id,
+        @NotEmpty String name,
+        @NotEmpty String email,
+        @NotEmpty String phone,
+        @Column("address_id") Long addressId) {
 }
