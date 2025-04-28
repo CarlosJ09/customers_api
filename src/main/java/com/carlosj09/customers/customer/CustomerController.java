@@ -8,14 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import com.carlosj09.customers.address.AddressRepository;
+import org.springframework.http.ResponseEntity;
+
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/customer")
 public class CustomerController {
 
     private final CustomerRepository customerRepository;
+    private final AddressRepository addressRepository;
 
-    public CustomerController(CustomerRepository customerRepository) {
+    public CustomerController(CustomerRepository customerRepository, AddressRepository addressRepository) {
         this.customerRepository = customerRepository;
+        this.addressRepository = addressRepository;
     }
 
     @GetMapping("")
@@ -30,13 +35,24 @@ public class CustomerController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    Customer createCustomer(@Valid @RequestBody Customer customer) {
-        return customerRepository.save(customer);
+    ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer) {
+        if (customer.addressId() != null && !addressRepository.existsById(customer.addressId())) {
+            return ResponseEntity.badRequest()
+                    .body("Cannot create customer: Address with ID " + customer.addressId() + " does not exist");
+        }
+
+        Customer savedCustomer = customerRepository.save(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
     }
 
     @PutMapping("/{id}")
-    Customer updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        return customerRepository.save(customer);
+    ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+        if (customer.addressId() != null && !addressRepository.existsById(customer.addressId())) {
+            return ResponseEntity.badRequest()
+                    .body("Cannot update customer: Address with ID " + customer.addressId() + " does not exist");
+        }
+
+        return ResponseEntity.ok(customerRepository.save(customer));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -44,5 +60,4 @@ public class CustomerController {
     void deleteCustomer(@PathVariable Long id) {
         customerRepository.deleteById(id);
     }
-
 }

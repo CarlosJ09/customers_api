@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS customer (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(255) NOT NULL,
-    address_id BIGINT NOT NULL
+    address_id BIGINT NOT NULL,
+    CONSTRAINT fk_address FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
 CREATE TABLE IF NOT EXISTS address (
